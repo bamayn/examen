@@ -1,0 +1,62 @@
+{% extends 'app/base.html' %}
+{%load static%}
+{% block title%}
+<title>{{producto.nombreProducto}}</title>
+{% endblock%}
+
+
+{%block content%}
+<style>
+    .card-body {
+        backdrop-filter: blur(14px);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+</style>
+
+<div class="container text-white">
+    <div class="card-body rounded-3 shadow-sm mt-4">
+        {%if user.is_authenticated%}
+        <div class="container col-xxl-8 px-4 py-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <img src="{{producto.foto.url}}" class="d-block mx-lg-auto img-fluid rounded" alt="Bootstrap Themes"
+                        width="700" height="500" loading="lazy">
+                </div>
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">{{producto.nombreProducto}}</h1>
+                    <div class="list-group list-group-checkable d-grid gap-2 border-0 w-auto">
+
+                        <label class="list-group-item rounded-3 py-3 text-center" for="listGroupCheckableRadios1">
+                            <h2>$&nbsp;{{producto.precio}}</h2>
+                        </label>
+
+                        <label class="list-group-item rounded-3 py-3" for="listGroupCheckableRadios2">
+                            Productos en stock
+                            <span class="d-block small opacity-50">{{producto.stock}}&nbsp;unidades</span>
+                        </label>
+
+
+                    </div>
+                    <br>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        <a href="{% url 'carro:agregar' producto.idProducto %}"
+                            class="btn btn-primary btn-lg px-4 text-align-center">Agregar al carro</a>
+                        <a href="{%url 'tienda' %}" class="btn btn-secondary btn-lg px-4 text-align-center">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {%else%}
+        <div class="m-5 py-5">
+            <h2>Inicia sesión para ver el producto</h2>
+            <a href="{%url 'login'%}" class="btn btn-primary btn-lg px-4 text-align-center">Iniciar sesión</a>
+
+        </div>
+        {%endif%}
+    </div>
+
+</div>
+
+{% endblock%}

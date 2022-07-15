@@ -1,0 +1,83 @@
+{% extends 'app/base.html' %}
+{%load static%}
+{% block title%}
+<title>Mis pedidos</title>
+{% endblock%}
+
+{%block content%}
+<style>
+    .card-body {
+        backdrop-filter: blur(14px);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+</style>
+
+<div class="container">
+    <div class="card-body rounded-3 shadow-sm m-4 p-4">
+
+        {% if user.is_authenticated %}
+
+        <div class="row featurette">
+            <div class="order-md-2 text-start text-white">
+                <h1 class="display-5 fw-bold mb-3">Mis pedidos</h1>
+
+                <table class="table text-white">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID Pedido</th>
+                            <th scope="col">Fecha de Pedido</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col" class="text-center">Cantidad de productos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for pedido in venta %}
+                        <tr>
+                            <th scope="row">{{pedido.id}}</th>
+                            <td>{{pedido.cfechaDetalle}}</td>
+                            <td>{{pedido.venta_id.estado}}</td>
+                            <td class="text-center">{{pedido.cantidad}}</td>
+                        </tr>
+
+
+
+
+                        {%endfor%}
+
+                    </tbody>
+                </table>
+
+
+                {%for pedido in ventas %}
+
+
+
+
+                {%endfor%}
+
+                <div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'tienda' %}" class="btn btn-secondary me-md-2" type="button">Volver</a>
+
+
+                    </div>
+
+                </div>
+
+
+
+
+                {%else%}
+                <div class="m-5 py-5 text-white">
+                    <h2>Inicia sesión para ver los pedidos.</h2>
+                    <a href="{%url 'login'%}" class="btn btn-primary btn-lg px-4 text-align-center">Iniciar sesión</a>
+
+                </div>
+
+                {%endif%}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock%}

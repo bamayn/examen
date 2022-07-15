@@ -1,0 +1,149 @@
+{% extends 'app/crud.html' %}
+{%load static%}
+{% block title%}
+<title>Crud: Usuarios</title>
+{% endblock%}
+
+
+{% block crud%}
+<div class="container-xxl">
+    <a class="add btn btn-success m-3" title="Agregar" data-toggle="tooltip"
+        href="{% url 'cargar_formulario_usuario' %}">
+        Agregar</a> <br>
+    <div class="card shadow">
+        <div class="card-body">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Admin</th>
+                        <th scope="col">Ultimo login</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in usuarios%}
+                    <tr>
+                        <td>{{u.id}}</td>
+                        <td>{{u.username}}</td>
+                        <td>{{u.first_name}}</td>
+                        <td>{{u.last_name}}</td>
+                        <td>{{u.email}}</td>
+                        <td>{{u.is_staff}}</td>
+                        <td>{{u.last_login}}</td>
+
+                        <td>
+                            <a href="{% url 'editar_usuario' u.id %}" class="btn btn-warning"><span
+                                    class="material-icons md-24 nav-link">&#xe3c9;</span></a>
+                            <a href="#" class="btn btn-danger"><span
+                                    class="material-icons md-24 nav-link">&#xe872;</span></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<br>
+<div class="container">
+
+    <div id="mensajes">
+        {% if mensajes %}
+        <ul>
+            {% for mensaje in mensajes %}
+            <div class="alert alert-success" role="alert">
+                <li>{{ mensaje }}</li>
+            </div>
+
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    <div id="errores">
+        {% if errores %}
+        <ul>
+            {% for error in errores %}
+            <div class="alert alert-danger" role="alert">
+                <li>{{ error }}</li>
+            </div>
+
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+
+
+
+    {% if accion == "form_add" %}
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="cuadro2">
+                <div class="table-wrapper">
+                    <div class="col-sm-12" align="right">
+                        <a class="add btn btn-success" title="Ver datos en tabla" data-toggle="tooltip"
+                            href="{% url 'usuarios' %}">
+                            Volver
+                        </a>
+                    </div>
+                    <h3>Datos del usuario add</h3>
+
+                    <form role="form" enctype="multipart/form-data" action="" method="POST" novalidate>
+                        {% csrf_token %}
+                        <table>
+                            {{ form.as_table }}
+                        </table>
+                        <input class="btn btn-primary" type="submit" value="Enviar">
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if accion == "form_edit" %}
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="cuadro3">
+                <div class="table-wrapper">
+                    <div class="col-sm-12" align="right">
+                        <a class="add btn btn-danger" title="Ver datos en tabla" data-toggle="tooltip"
+                            href="{% url 'usuarios' %}">
+                            Cerrar
+                        </a>
+                    </div>
+                    <h3>Datos del Usuario</h3>
+
+                    <form role="form" enctype="multipart/form-data" action="" method="POST" novalidate>
+                        {% csrf_token %}
+                        <table>
+                            {{ form.as_table }}
+                            <input type="hidden" name="id_persona" value="{{form.id_persona}}">
+                        </table>
+                        <input class="btn btn-success" type="submit" value="Actualizar">
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+</div>
+<br>
+{% endblock %}

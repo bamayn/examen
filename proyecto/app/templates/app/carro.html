@@ -1,0 +1,100 @@
+{% extends 'app/base.html' %}
+{%load static%}
+{% block title%}
+<title>Carrito</title>
+{% endblock%}
+
+{%block content%}
+<style>
+    .card-body {
+        backdrop-filter: blur(14px);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+</style>
+
+<div class="container">
+    <div class="card-body rounded-3 shadow-sm m-4 p-4">
+
+        {% if user.is_authenticated %}
+
+        <div class="row featurette">
+            <div class="order-md-2 text-start">
+                <h1 class="display-5 fw-bold mb-3 text-white">Carro de compras</h1>
+                <table class="table text-color-wh text-white">
+                    <tbody>
+                        {% if request.session.carro.items %}
+
+                        {% for key, value in request.session.carro.items %}
+                        <tr class="text-start">
+                            <td colspan="1"><img src="{{value.imagen}}" style="height: 70px; width: 70px;"></td>
+                            <td colspan="1">{{value.nombreProducto}}</td>
+                            <td>
+                                <a href="{% url 'carro:restar' value.idProducto %}"
+                                    class="btn rounded-pill btn-sm btn-success">-</a>
+
+                                {{value.cantidad}}
+
+                                <a href="{% url 'carro:agregar' value.idProducto %}"
+                                    class="btn  rounded-pill btn-sm btn-success">
+                                    +
+                                </a>
+                            </td>
+
+                            <td colspan="1">
+                                ${{value.precio}}
+
+                            </td>
+                            <td class="">
+                                <a href="{% url 'carro:eliminar' value.idProducto %}" class="nav-link"><span
+                                        class="material-icons">&#xe872;</span></a>
+                            </td>
+                        </tr>
+                        {%endfor%}
+                        {%else%}
+                        <tr>
+                            <td colspan="5">
+                                <div class="alert-danger text-center">
+                                    Sin productos
+                                </div>
+                            </td>
+                        </tr>
+
+                        {%endif%}
+                        <tr>
+                            <th colspan="5" class="text-end">
+                                Total a pagar: ${{importe_total_carro}}
+                            </th>
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+                <div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'tienda' %}" class="btn btn-secondary me-md-2" type="button">Volver</a>
+                        <a href="{% url 'comprar' %}" class="btn btn-warning me-md-2" type="button">Comprar</a>
+
+                    </div>
+
+                </div>
+
+
+
+
+                {%else%}
+                <div class="m-5 py-5 text-white">
+                    <h2>Inicia sesión para ver el carrito</h2>
+                    <a href="{%url 'login'%}" class="btn btn-primary btn-lg px-4 text-align-center">Iniciar sesión</a>
+
+                </div>
+
+                {%endif%}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock%}

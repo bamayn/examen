@@ -1,0 +1,51 @@
+{% extends 'app/base.html' %}
+{%load static%}
+{% block title%}
+<title>Tienda</title>
+{% endblock%}
+
+{%block content%}
+<style>
+  .card-body {
+    backdrop-filter: blur(14px);
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+</style>
+
+<div class="container mt-4">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for producto in productos%}
+    <div class="col">
+      <div class="h-100 p-2 card-body rounded-3 shadow-sm">
+        <div class="text-center">
+          <h2 style="text-transform: uppercase;">{{producto.nombreProducto}}</h2>
+        </div>
+
+
+        <div class="text-center">
+          <img src="{{producto.foto.url}}" class="rounded shadow-sm" alt="..." style="width: 200px;">
+        </div>
+        <div class="text-center mt-2 mb-2">
+          <h3>${{producto.precio}}</h3>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <a href="{% url 'producto_det'  pk=producto.idProducto %}" class="btn btn-warning"><span
+              class="material-icons md-36">&#xe5e1;</span></a>
+        </div>
+      </div>
+
+
+
+    </div>
+    {%endfor%}
+
+
+
+
+  </div>
+
+</div>
+</div>
+
+{% endblock%}

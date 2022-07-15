@@ -1,0 +1,85 @@
+{% extends 'app/base.html' %}
+{%load static%}
+{% block title%}
+<title>Crud</title>
+{% endblock%}
+
+{%block content%}
+
+
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" aria-current="page" href="{% url 'crud'%}">Productos</a>
+          <a class="nav-link" href="{% url 'usuarios'%}">Usuarios</a>
+          <a class="nav-link" href="{% url 'pedidos'%}">Pedidos</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <hr>
+</div>
+
+{% block crud%}
+<div class="container-xxl pt-4">
+  <a href="{% url 'productosAdd' %}" class="btn btn-success mb-4">Agregar producto</a>
+  <br>
+
+  <div class="card shadow">
+    <div class="card-body">
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Imagen</th>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Stock</th>
+            <th scope="col">activo</th>
+            <th scope="col">Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in productos%}
+          <tr>
+            <td><img src="{{p.foto.url}}" class="card-img-top" alt="..." style="width:70px;height:70px"></td>
+            <td>{{p.idProducto}}</td>
+            <td>{{p.nombreProducto}}</td>
+            <td>{{p.precio}}</td>
+            <td>{{p.stock}}</td>
+            <td>
+              {%if p.activo == 1%}
+              Disponible
+              {%else%}
+              No disponible
+              {%endif%}
+            </td>
+            <td>
+              <a href="{% url 'productos_edit' pk=p.idProducto %}" class="btn btn-warning"><span
+                  class="material-icons md-24 nav-link">&#xe3c9;</span></a>
+              <a href="{% url 'productos_del'  pk=p.idProducto %}" class="btn btn-danger"><span
+                  class="material-icons md-24 nav-link">&#xe872;</span></a>
+            </td>
+          </tr>
+          {% endfor %}
+
+
+        </tbody>
+      </table>
+
+
+    </div>
+  </div>
+
+
+</div>
+{%endblock%}
+
+{%endblock%}

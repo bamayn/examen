@@ -1,0 +1,120 @@
+{% extends 'app/crud.html' %}
+{%load static%}
+{% block title%}
+<title>Crud: Pedidos</title>
+{% endblock%}
+
+
+{% block crud%}
+<div class="container-xxl">
+    <div class="card shadow">
+        <div class="card-body">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Total productos</th>
+                        <th scope="col">Fecha solicitud</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col"></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pedido in pedidos%}
+                    <tr>
+                        <td>{{pedido.id}}</td>
+                        <td>{{pedido.user}}</td>
+                        <td>{{pedido.cantidad}}</td>
+                        <td>{{pedido.cfechaDetalle}}</td>
+                        <td>{{pedido.venta_id.estado}}</td>
+
+
+                        <td>
+                            <a href="{% url 'editar_pedido' pedido.venta_id %}" class="btn btn-warning"><span
+                                    class="material-icons md-24 nav-link">&#xe3c9;</span></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<br>
+<div class="container">
+
+    <div id="mensajes">
+        {% if mensajes %}
+        <ul>
+            {% for mensaje in mensajes %}
+            <div class="alert alert-success" role="alert">
+                <li>{{ mensaje }}</li>
+            </div>
+
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    <div id="errores">
+        {% if errores %}
+        <ul>
+            {% for error in errores %}
+            <div class="alert alert-danger" role="alert">
+                <li>{{ error }}</li>
+            </div>
+
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+
+
+
+    {% if accion == "form_edit" %}
+    {% load crispy_forms_tags %}
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="cuadro3">
+                <div class="table-wrapper">
+                    <div class="col-sm-12" align="right">
+                        <a class="add btn btn-secondary" title="Ver datos en tabla" data-toggle="tooltip"
+                            href="{% url 'pedidos' %}">
+                            Volver
+                        </a>
+                    </div>
+                    <h3>Datos del Pedido</h3>
+
+                    <form role="form" enctype="multipart/form-data" action="" method="POST" novalidate>
+                        {% csrf_token %}
+                        <table>
+                            {{ form.as_p }}
+
+                        </table>
+                        <br>
+                        <input class="btn btn-warning" type="submit" value="Actualizar">
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+
+
+
+</div>
+<br>
+{% endblock %}
